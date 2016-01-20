@@ -30,8 +30,8 @@
       yum: name=python-rdomanager-oscplugin state=present
       sudo: yes
 
-    - name: install python-passlib
-      yum: name=python-passlib state=present
+    - name: install python-passlib and gnocchiclient
+      yum: name=python-passlib,python-gnocchiclient state=present
       sudo: yes
 
 

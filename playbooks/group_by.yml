@@ -38,4 +38,3 @@
   tasks:
     - group_by: key={{ installer.custom_deploy.type }}
       when: installer.custom_deploy.type is defined
-
