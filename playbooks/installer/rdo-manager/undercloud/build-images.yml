@@ -24,6 +24,16 @@
       yum: name=wget state=latest
       sudo: yes
 
+    - name: hack openstack pupped mysql module part 1
+      get_url: url=https://raw.githubusercontent.com/puppetlabs/puppetlabs-mysql/1cfddec3ff2baa12e5eb87606712f33a2b2b0473/manifests/server/service.pp dest={{ instack_user_home }}/service.pp
+
+    - name: install guestfish
+      yum: name=guestfish state=present
+      sudo: yes
+
+    - name: hack openstack pupped mysql module part 2
+      shell: virt-copy-in -a {{ instack_user_home }}/overcloud-full.qcow2 {{ instack_user_home }}/service.pp /usr/share/openstack-puppet/modules/mysql/manifests/server/
+
     - name: download the pre-built rdo-manager images
       shell: >
             wget --quiet -c -O {{ instack_user_home }}/{{ item }}.tar
