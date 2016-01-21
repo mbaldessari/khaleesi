@@ -179,11 +179,11 @@
         - tripleo-undercloud-passwords
         - stackrc
 
-- name: confirm installing the undercloud is idempotent
-  hosts: undercloud
-  tasks:
-    - name: install the undercloud
-      shell: openstack undercloud install &> {{ instack_user_home }}/undercloud_install_idempotent_check.log
+#- name: confirm installing the undercloud is idempotent
+#  hosts: undercloud
+#  tasks:
+#    - name: install the undercloud
+#      shell: openstack undercloud install &> {{ instack_user_home }}/undercloud_install_idempotent_check.log
 
 - name: undercloud post install workarounds
   hosts: undercloud
