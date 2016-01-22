@@ -1,0 +1,5 @@
+tester:
+    ha:
+        test_regex: all
+        whitelist: []
+        blacklist: []

@@ -7,6 +7,9 @@
     - name: create user
       user: name="{{ provisioner.remote_user }}" state=present password=stack
 
+    - name: fix group permissions
+      command: usermod -a -G stack stack
+
     - name: copy the .bash_profile file
       command:  cp /root/.bash_profile /home/{{ provisioner.remote_user }}/
 

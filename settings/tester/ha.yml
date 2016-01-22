@@ -1,0 +1,7 @@
+--- !extends:common.yml
+tester:
+    type: ha
+    dir: ha
+
+defaults:
+    setup: git

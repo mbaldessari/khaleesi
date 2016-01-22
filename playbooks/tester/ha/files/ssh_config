@@ -1,0 +1,4 @@
+Host 192.168.122.1
+        Hostname 192.168.122.1
+        StrictHostKeyChecking no
+        UserKnownHostsFile=/dev/null
