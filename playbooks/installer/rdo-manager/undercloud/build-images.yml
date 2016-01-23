@@ -2,6 +2,25 @@
 - name: build or import images
   hosts: undercloud
   tasks:
+    - name: install guestfish
+      yum: name=guestfish state=present
+      sudo: yes
+
+    - name: create ssh dir
+      file: state=directory path={{ instack_user_home}}/.ssh owner=stack group=stack mode=0700
+
+    - name: copy ssh_config
+      copy: src={{ base_dir }}/khaleesi/playbooks/tester/ha/files/ssh_config dest={{ instack_user_home }}/.ssh owner=stack group=stack mode=0600
+
+    - name: michele clone hacked up puppet modules
+      git: repo=https://github.com/mbaldessari/openstack-puppet-modules dest={{ instack_user_home }}/openstack-puppet-modules version=mitaka-test
+
+    - name: michele clone hacked up tht
+      git: repo=https://github.com/mbaldessari/tripleo-heat-templates dest={{ instack_user_home }}/openstack-tripleo-heat-templates version=mitaka-test
+
+    - name: michele clone tripleo client
+      git: repo=https://github.com/mbaldessari/python-tripleoclient.git dest={{ instack_user_home }}/python-tripleoclient version=wip-fencing-via-json
+
     - name: setup environment vars
       template: src={{ base_dir }}/khaleesi/playbooks/installer/rdo-manager/templates/build-img-env.j2 dest=~/build-img-env mode=0755
 
@@ -24,15 +43,11 @@
       yum: name=wget state=latest
       sudo: yes
 
-    - name: hack openstack pupped mysql module part 1
-      get_url: url=https://raw.githubusercontent.com/puppetlabs/puppetlabs-mysql/1cfddec3ff2baa12e5eb87606712f33a2b2b0473/manifests/server/service.pp dest={{ instack_user_home }}/service.pp
+#    - name: hack openstack pupped mysql module part 1
+#      get_url: url=https://raw.githubusercontent.com/puppetlabs/puppetlabs-mysql/1cfddec3ff2baa12e5eb87606712f33a2b2b0473/manifests/server/service.pp dest={{ instack_user_home }}/service.pp
 
-    - name: install guestfish
-      yum: name=guestfish state=present
-      sudo: yes
-
-    - name: hack openstack pupped mysql module part 2
-      shell: virt-copy-in -a {{ instack_user_home }}/overcloud-full.qcow2 {{ instack_user_home }}/service.pp /usr/share/openstack-puppet/modules/mysql/manifests/server/
+    #- name: hack openstack pupped mysql module part 2
+    #  shell: virt-copy-in -a {{ instack_user_home }}/overcloud-full.qcow2 {{ instack_user_home }}/service.pp /usr/share/openstack-puppet/modules/mysql/manifests/server/
 
     - name: download the pre-built rdo-manager images
       shell: >
